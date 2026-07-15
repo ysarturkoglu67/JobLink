@@ -1,34 +1,80 @@
 import { Link } from "react-router-dom";
+import {
+  MapPin,
+  Briefcase,
+  Banknote,
+  Clock3,
+} from "lucide-react";
 
 const JobCard = ({ job }) => {
   return (
-    <div className="bg-white rounded-xl shadow p-6 hover:shadow-xl transition">
+    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border">
 
-      <h2 className="text-xl font-bold">
-        {job.title}
-      </h2>
+      <div className="flex justify-between">
 
-      <p className="text-gray-600 mt-2">
-        {job.company}
-      </p>
+        <div>
 
-      <p className="mt-2">
-        📍 {job.location}
-      </p>
+          <h2 className="text-2xl font-bold">
+            {job.title}
+          </h2>
 
-      <p>
-        💼 {job.employmentType}
-      </p>
+          <p className="text-gray-500 mt-1">
+            {job.company}
+          </p>
 
-      <p className="font-semibold mt-2 text-green-600">
-        ₺ {job.salary}
-      </p>
+        </div>
+
+        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+          Yeni
+        </span>
+
+      </div>
+
+      <div className="mt-6 space-y-3">
+
+        <p className="flex items-center gap-2">
+          <MapPin size={18} />
+          {job.location}
+        </p>
+
+        <p className="flex items-center gap-2">
+          <Briefcase size={18} />
+          {job.employmentType}
+        </p>
+
+        <p className="flex items-center gap-2">
+          <Banknote size={18} />
+          ₺ {job.salary}
+        </p>
+
+        <p className="flex items-center gap-2">
+          <Clock3 size={18} />
+          {new Date(job.createdAt).toLocaleDateString("tr-TR")}
+        </p>
+
+      </div>
+
+      <div className="flex gap-2 mt-6 flex-wrap">
+
+        <span className="bg-slate-100 px-3 py-1 rounded-full text-sm">
+          React
+        </span>
+
+        <span className="bg-slate-100 px-3 py-1 rounded-full text-sm">
+          Node.js
+        </span>
+
+        <span className="bg-slate-100 px-3 py-1 rounded-full text-sm">
+          MongoDB
+        </span>
+
+      </div>
 
       <Link
         to={`/jobs/${job._id}`}
-        className="inline-block mt-5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        className="mt-6 w-full block text-center bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3"
       >
-        Detaylari Gör
+        İlan Detayini Gör
       </Link>
 
     </div>
