@@ -7,6 +7,7 @@ const JobDetails = () => {
 
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [coverLetter, setCoverLetter] = useState("");
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -31,6 +32,22 @@ const JobDetails = () => {
         İlan bulunamadi.
       </h2>
     );
+    const applyJob = async () => {
+  try {
+    await api.post("/applications", {
+      jobId: job._id,
+      coverLetter,
+    });
+
+    toast.success("Başvurunuz başariyla gönderildi.");
+
+    setCoverLetter("");
+  } catch (err) {
+    toast.error(
+      err.response?.data?.message || "Başvuru başarisiz."
+    );
+  }
+};
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-6">
@@ -66,11 +83,29 @@ const JobDetails = () => {
         </p>
 
       </div>
+      <div className="mt-10">
+  <label className="block mb-2 text-lg font-semibold">
+    Ön Yazi
+  </label>
+
+  <textarea
+    rows="6"
+    value={coverLetter}
+    onChange={(e) => setCoverLetter(e.target.value)}
+    placeholder="Kendinizi kisaca tanitin..."
+    className="w-full border rounded-lg p-4"
+  />
+</div>
 
       <button
         className="mt-10 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl"
       >
-        Başvur
+       <button
+  onClick={applyJob}
+  className="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg"
+>
+  Başvur
+</button>
       </button>
 
     </div>

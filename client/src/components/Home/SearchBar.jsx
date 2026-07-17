@@ -1,42 +1,66 @@
-import { Search } from "lucide-react";
+import { useState } from "react";
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
+  const [filters, setFilters] = useState({
+    keyword: "",
+    location: "",
+    employmentType: "",
+  });
+
+  const handleChange = (e) => {
+    setFilters({
+      ...filters,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearch(filters);
+  };
+
   return (
-    <div className="max-w-5xl mx-auto -mt-12 bg-white shadow-xl rounded-2xl p-6">
-
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-6xl mx-auto -mt-10 bg-white rounded-2xl shadow-xl p-6"
+    >
       <div className="grid md:grid-cols-4 gap-4">
 
         <input
-          className="border rounded-lg p-3"
+          name="keyword"
           placeholder="Pozisyon"
+          value={filters.keyword}
+          onChange={handleChange}
+          className="border rounded-lg p-3"
         />
 
         <input
-          className="border rounded-lg p-3"
+          name="location"
           placeholder="Şehir"
+          value={filters.location}
+          onChange={handleChange}
+          className="border rounded-lg p-3"
         />
 
-        <select className="border rounded-lg p-3">
-
-          <option>Full Time</option>
-
-          <option>Part Time</option>
-
-          <option>Remote</option>
-
+        <select
+          name="employmentType"
+          value={filters.employmentType}
+          onChange={handleChange}
+          className="border rounded-lg p-3"
+        >
+          <option value="">Çalışma Tipi</option>
+          <option value="Full Time">Full Time</option>
+          <option value="Part Time">Part Time</option>
+          <option value="Remote">Remote</option>
+          <option value="Hybrid">Hybrid</option>
         </select>
 
-        <button className="bg-blue-600 text-white rounded-lg flex justify-center items-center gap-2">
-
-          <Search size={18} />
-
+        <button className="bg-blue-600 text-white rounded-lg">
           Ara
-
         </button>
 
       </div>
-
-    </div>
+    </form>
   );
 };
 

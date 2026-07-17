@@ -8,6 +8,7 @@ import {
   updateJob,
   deleteJob,
   getMyJobs,
+  getEmployerStats,
 } from "../controllers/job.controller.js";
 
 
@@ -19,20 +20,26 @@ router.get("/:id", getJobById);
 router.post(
   "/",
   protect,
-  authorize("Employer", "Admin"),
+  authorize("employer", "admin"),
   createJob
 );
 router.put(
   "/:id",
   protect,
-  authorize("Employer", "Admin"),
+  authorize("employer", "admin"),
   updateJob
 );
 router.delete(
   "/:id",
   protect,
-  authorize("Employer", "Admin"),
+  authorize("employer", "admin"),
   deleteJob
+);
+router.get(
+  "/stats",
+  protect,
+  authorize("employer", "admin"),
+  getEmployerStats
 );
 
 

@@ -25,6 +25,7 @@ app.get("/api/health", (req, res) => {
 });
 
 // Routes
+app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);

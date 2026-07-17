@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -121,5 +122,6 @@ const Register = () => {
     </div>
   );
 };
+toast.success("Kayit başarili");
 
 export default Register;

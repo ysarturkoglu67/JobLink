@@ -15,7 +15,6 @@ export const applyJob = async (req, res) => {
       });
     }
 
-    // Aynı ilana ikinci kez başvurmayı engelle
     const existingApplication = await Application.findOne({
       job: jobId,
       applicant: req.user._id,
@@ -46,7 +45,7 @@ export const applyJob = async (req, res) => {
   }
 };
 
-// Kullanıcının yaptığı başvurular
+// Giriş yapan adayın başvuruları
 export const getMyApplications = async (req, res) => {
   try {
     const applications = await Application.find({
@@ -71,7 +70,7 @@ export const getMyApplications = async (req, res) => {
   }
 };
 
-// Bir ilana gelen başvurular
+// İşverene ait ilana gelen başvurular
 export const getApplicationsForJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.jobId);
@@ -83,7 +82,6 @@ export const getApplicationsForJob = async (req, res) => {
       });
     }
 
-    // Sadece ilan sahibi görebilir
     if (job.createdBy.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
@@ -94,7 +92,7 @@ export const getApplicationsForJob = async (req, res) => {
     const applications = await Application.find({
       job: req.params.jobId,
     })
-      .populate("applicant", "name email")
+      .populate("applicant", "name email cv")
       .sort("-createdAt");
 
     res.status(200).json({
@@ -131,10 +129,7 @@ export const updateApplicationStatus = async (req, res) => {
       });
     }
 
-    // Sadece ilan sahibi güncelleyebilir
-    if (
-      application.job.createdBy.toString() !== req.user._id.toString()
-    ) {
+    if (application.job.createdBy.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
         message: "Bu başvuruyu güncelleme yetkiniz yok.",
@@ -149,7 +144,6 @@ export const updateApplicationStatus = async (req, res) => {
       success: true,
       application,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,

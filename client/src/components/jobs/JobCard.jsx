@@ -4,32 +4,32 @@ import {
   Briefcase,
   Banknote,
   Clock3,
+  Heart,
 } from "lucide-react";
 
 const JobCard = ({ job }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border">
+    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border relative">
 
-      <div className="flex justify-between">
+      {/* Favori Butonu */}
+      <button
+        className="absolute top-5 right-5 text-gray-400 hover:text-red-500 transition"
+      >
+        <Heart size={22} />
+      </button>
 
-        <div>
+      {/* Başlık */}
+      <div>
+        <h2 className="text-2xl font-bold">
+          {job.title}
+        </h2>
 
-          <h2 className="text-2xl font-bold">
-            {job.title}
-          </h2>
-
-          <p className="text-gray-500 mt-1">
-            {job.company}
-          </p>
-
-        </div>
-
-        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-          Yeni
-        </span>
-
+        <p className="text-gray-500 mt-1">
+          {job.company}
+        </p>
       </div>
 
+      {/* Bilgiler */}
       <div className="mt-6 space-y-3">
 
         <p className="flex items-center gap-2">
@@ -54,6 +54,7 @@ const JobCard = ({ job }) => {
 
       </div>
 
+      {/* Etiketler */}
       <div className="flex gap-2 mt-6 flex-wrap">
 
         <span className="bg-slate-100 px-3 py-1 rounded-full text-sm">
@@ -70,11 +71,12 @@ const JobCard = ({ job }) => {
 
       </div>
 
+      {/* Detay Butonu */}
       <Link
         to={`/jobs/${job._id}`}
-        className="mt-6 w-full block text-center bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3"
+        className="mt-6 block w-full text-center bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3 transition"
       >
-        İlan Detayini Gör
+        İlan Detayını Gör
       </Link>
 
     </div>

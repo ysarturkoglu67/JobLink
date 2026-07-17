@@ -14,7 +14,7 @@ const router = express.Router();
 router.post(
   "/",
   protect,
-  authorize("Candidate"),
+  authorize("candidate"),
   applyJob
 );
 
@@ -27,13 +27,15 @@ router.get(
 router.get(
   "/job/:jobId",
   protect,
+  authorize("employer", "admin"),
   getApplicationsForJob
 );
 
 router.patch(
   "/:id/status",
   protect,
-  authorize("Employer", "Admin"),
+  authorize("employer", "admin"),
   updateApplicationStatus
 );
+
 export default router;

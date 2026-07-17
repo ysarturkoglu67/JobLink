@@ -244,3 +244,22 @@ export const getMyJobs = async (req, res) => {
     });
   }
 };
+
+// Employer Dashboard İstatistikleri
+export const getEmployerStats = async (req, res) => {
+  try {
+    const jobs = await Job.find({
+      createdBy: req.user._id,
+    });
+
+    res.status(200).json({
+      success: true,
+      totalJobs: jobs.length,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

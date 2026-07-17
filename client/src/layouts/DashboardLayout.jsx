@@ -100,5 +100,8 @@ const DashboardLayout = () => {
     </div>
   );
 };
+<Link to="/candidate/applications">
+  Başvurularim
+</Link>
 
 export default DashboardLayout;

@@ -22,7 +22,7 @@ const FilterSidebar = () => {
 
         <div>
           <label className="block mb-2 font-medium">
-            Çalışma Tipi
+            Çalişma Tipi
           </label>
 
           <select className="w-full border rounded-lg p-3">

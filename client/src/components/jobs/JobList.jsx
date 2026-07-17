@@ -1,73 +1,83 @@
 import { useEffect } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import JobSkeleton from "./JobSkeleton";
 
 import api from "../../api/axios";
 
 import JobCard from "./JobCard";
 
 import {
-fetchStart,
-fetchSuccess,
-fetchFail
+  fetchStart,
+  fetchSuccess,
+  fetchFail,
 } from "../../redux/slices/jobSlice";
 
-const JobList=()=>{
+const JobList = ({ filters }) => {
+  const dispatch = useDispatch();
 
-const dispatch=useDispatch();
+  const {
+  jobs,
+  loading,
+  page,
+  totalPages,
+} = useSelector((state) => state.jobs);
 
-const {jobs,loading}=useSelector(state=>state.jobs);
+  useEffect(() => {
+    loadJobs();
+  }, [filters]);
 
-useEffect(()=>{
+  const loadJobs = async () => {
+    try {
+      dispatch(fetchStart());
 
-loadJobs();
+      const res = await api.get("/jobs", {
+      params: {
+     ...filters,
+     page,
+     limit: 6,
+   },
+  });
 
-},[]);
+      dispatch(fetchSuccess(res.data));
+    } catch (err) {
+      dispatch(fetchFail(err.message));
+    }
+  };
 
-const loadJobs=async()=>{
-
-try{
-
-dispatch(fetchStart());
-
-const res=await api.get("/jobs");
-
-dispatch(fetchSuccess(res.data.jobs));
-
-}catch(err){
-
-dispatch(fetchFail(err.message));
-
+  if (loading) {
+  return (
+    <div className="grid lg:grid-cols-3 gap-6">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <JobSkeleton key={index} />
+      ))}
+    </div>
+  );
 }
 
-}
+  if (jobs.length === 0) {
+    return (
+      <div className="text-center py-20">
+        <h2 className="text-2xl font-semibold">
+          İlan bulunamadi
+        </h2>
 
-if(loading){
+        <p className="text-gray-500 mt-2">
+          Arama kriterlerini değiştirmeyi deneyin.
+        </p>
+      </div>
+    );
+  }
 
-return <h2>Yükleniyor...</h2>
-
-}
-
-return(
-
-<div className="grid lg:grid-cols-3 gap-6">
-
-{
-
-jobs.map(job=>(
-
-<JobCard
-key={job._id}
-job={job}
-/>
-
-))
-
-}
-
-</div>
-
-)
-
-}
+  return (
+    <div className="grid lg:grid-cols-3 gap-6">
+      {jobs.map((job) => (
+        <JobCard
+          key={job._id}
+          job={job}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default JobList;
