@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import {
+  MessageCircle,
+  Briefcase,
+  MapPin,
+  Banknote,
+} from "lucide-react";
 
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadApplications();
@@ -17,7 +26,8 @@ const MyApplications = () => {
       setApplications(res.data.applications);
     } catch (err) {
       toast.error(
-        err.response?.data?.message || "Başvurular yüklenemedi."
+        err.response?.data?.message ||
+          "Başvurular yüklenemedi."
       );
     } finally {
       setLoading(false);
@@ -57,19 +67,22 @@ const MyApplications = () => {
                 {app.job.title}
               </h2>
 
-              <p className="text-gray-500 mt-2">
+              <p className="text-gray-600 flex items-center gap-2 mt-2">
+                <Briefcase size={18} />
                 {app.job.company}
               </p>
 
-              <p className="mt-2">
-                📍 {app.job.location}
+              <p className="text-gray-600 flex items-center gap-2 mt-2">
+                <MapPin size={18} />
+                {app.job.location}
               </p>
 
-              <p className="mt-2">
-                💰 {app.job.salary} ₺
+              <p className="text-gray-600 flex items-center gap-2 mt-2">
+                <Banknote size={18} />
+                ₺ {app.job.salary}
               </p>
 
-              <div className="mt-4">
+              <div className="mt-5">
 
                 <span
                   className={`px-4 py-2 rounded-full text-white ${
@@ -80,10 +93,28 @@ const MyApplications = () => {
                       : "bg-red-600"
                   }`}
                 >
-                  {app.status}
+                  {app.status === "Pending"
+                    ? "Beklemede"
+                    : app.status === "Accepted"
+                    ? "Kabul Edildi"
+                    : "Reddedildi"}
                 </span>
 
               </div>
+
+              {app.job.createdBy && (
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/candidate/chat/${app.job.createdBy._id}`
+                    )
+                  }
+                  className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl flex items-center gap-2"
+                >
+                  <MessageCircle size={18} />
+                  İşverenle Mesajlaş
+                </button>
+              )}
 
             </div>
           ))}

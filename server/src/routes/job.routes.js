@@ -41,6 +41,6 @@ router.get(
   authorize("employer", "admin"),
   getEmployerStats
 );
-
+router.get("/:id", getJobById);
 
 export default router;

@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import toast from "react-hot-toast";
+import {
+  MessageCircle,
+  CheckCircle,
+  XCircle,
+  FileText,
+} from "lucide-react";
 
 const Applicants = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const jobId = searchParams.get("jobId");
@@ -86,8 +93,20 @@ const Applicants = () => {
                   </h2>
 
                   <p className="text-gray-500">
-                    {application.applicant.email}
+                    📧 {application.applicant.email}
                   </p>
+
+                  {application.applicant.phone && (
+                    <p className="text-gray-500">
+                      📞 {application.applicant.phone}
+                    </p>
+                  )}
+
+                  {application.applicant.city && (
+                    <p className="text-gray-500">
+                      📍 {application.applicant.city}
+                    </p>
+                  )}
 
                   {application.coverLetter && (
                     <div className="mt-4">
@@ -103,18 +122,31 @@ const Applicants = () => {
 
                 </div>
 
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2 w-44">
 
                   {application.applicant.cv && (
                     <a
                       href={`http://localhost:5000${application.applicant.cv}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg text-center"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2"
                     >
+                      <FileText size={18} />
                       CV Görüntüle
                     </a>
                   )}
+
+                  <button
+                    onClick={() =>
+                      navigate(
+                        `/employer/chat/${application.applicant._id}`
+                      )
+                    }
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2"
+                  >
+                    <MessageCircle size={18} />
+                    Mesaj Gönder
+                  </button>
 
                   <button
                     onClick={() =>
@@ -123,8 +155,9 @@ const Applicants = () => {
                         "Accepted"
                       )
                     }
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg"
+                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2"
                   >
+                    <CheckCircle size={18} />
                     Kabul Et
                   </button>
 
@@ -135,8 +168,9 @@ const Applicants = () => {
                         "Rejected"
                       )
                     }
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg"
+                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2"
                   >
+                    <XCircle size={18} />
                     Reddet
                   </button>
 
@@ -155,7 +189,11 @@ const Applicants = () => {
                       : "bg-red-600"
                   }`}
                 >
-                  {application.status}
+                  {application.status === "Pending"
+                    ? "Beklemede"
+                    : application.status === "Accepted"
+                    ? "Kabul Edildi"
+                    : "Reddedildi"}
                 </span>
 
               </div>

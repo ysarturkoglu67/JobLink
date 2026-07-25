@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
+import Job from "../models/Job.js";
 
 // REGISTER
 export const register = async (req, res) => {
@@ -275,5 +276,71 @@ export const getSavedJobs = async (req, res) => {
       message: error.message,
     });
 
+  }
+};
+export const saveJob = async (req, res) => {
+  try {
+    const { jobId } = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    if (!user.savedJobs.includes(jobId)) {
+      user.savedJobs.push(jobId);
+      await user.save();
+    }
+
+    res.json({
+      success: true,
+      message: "Favorilere eklendi",
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const uploadResume = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    user.resume = req.file.filename;
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "CV başarıyla yüklendi.",
+      resume: user.resume,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+export const uploadAvatar = async (req, res) => {
+  try {
+
+    const user = await User.findById(req.user._id);
+
+    user.avatar = req.file.filename;
+
+    await user.save();
+
+    res.json({
+      success: true,
+      avatar: user.avatar,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

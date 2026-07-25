@@ -16,6 +16,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import CandidateDashboard from "../pages/candidate/Dashboard";
 import Profile from "../pages/candidate/Profile";
 import MyApplications from "../pages/candidate/MyApplications";
+import SavedJobs from "../pages/candidate/SavedJobs";
 
 // Employer Pages
 import EmployerDashboard from "../pages/employer/Dashboard";
@@ -23,6 +24,7 @@ import CreateJob from "../pages/employer/CreateJob";
 import MyJobs from "../pages/employer/MyJobs";
 import EditJob from "../pages/employer/EditJob";
 import Applicants from "../pages/employer/Applicants";
+import Chat from "../pages/Chat";
 
 // Admin Pages
 import AdminDashboard from "../pages/admin/Dashboard";
@@ -39,13 +41,14 @@ const AppRoutes = () => {
       <Route path="/jobs/:id" element={<JobDetails />} />
 
       {/* ================= CANDIDATE ================= */}
-
+      <Route path="chat/:userId" element={<Chat />} />
       <Route
   path="/candidate"
   element={
     <ProtectedRoute roles={["candidate"]}>
       <DashboardLayout />
     </ProtectedRoute>
+    
   }
 >
   <Route index element={<CandidateDashboard />} />
@@ -54,7 +57,7 @@ const AppRoutes = () => {
 </Route>
 
       {/* ================= EMPLOYER ================= */}
-
+      <Route path="chat/:userId" element={<Chat />} />
       <Route
         path="/employer"
         element={
@@ -97,5 +100,9 @@ const AppRoutes = () => {
     </Routes>
   );
 };
+<Route
+  path="saved-jobs"
+  element={<SavedJobs />}
+/>
 
 export default AppRoutes;

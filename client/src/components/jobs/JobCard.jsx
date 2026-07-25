@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import {
   MapPin,
   Briefcase,
@@ -6,30 +7,54 @@ import {
   Clock3,
   Heart,
 } from "lucide-react";
+import api from "../../api/axios";
+import toast from "react-hot-toast";
 
 const JobCard = ({ job }) => {
-  return (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border relative">
+  const [saved, setSaved] = useState(false);
 
-      {/* Favori Butonu */}
+  const saveJob = async () => {
+    try {
+      await api.post("/auth/saved-jobs", {
+        jobId: job._id,
+      });
+
+      setSaved(true);
+
+      toast.success("İlan favorilere eklendi");
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message ||
+          "Favorilere eklenemedi."
+      );
+    }
+  };
+
+  return (
+    <div className="relative bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border">
+
       <button
-        className="absolute top-5 right-5 text-gray-400 hover:text-red-500 transition"
+        onClick={saveJob}
+        className="absolute top-5 right-5"
       >
-        <Heart size={22} />
+        <Heart
+          size={22}
+          className={`cursor-pointer transition ${
+            saved
+              ? "fill-red-500 text-red-500"
+              : "text-gray-400 hover:text-red-500"
+          }`}
+        />
       </button>
 
-      {/* Başlık */}
-      <div>
-        <h2 className="text-2xl font-bold">
-          {job.title}
-        </h2>
+      <h2 className="text-2xl font-bold">
+        {job.title}
+      </h2>
 
-        <p className="text-gray-500 mt-1">
-          {job.company}
-        </p>
-      </div>
+      <p className="text-gray-500 mt-1">
+        {job.company}
+      </p>
 
-      {/* Bilgiler */}
       <div className="mt-6 space-y-3">
 
         <p className="flex items-center gap-2">
@@ -54,7 +79,6 @@ const JobCard = ({ job }) => {
 
       </div>
 
-      {/* Etiketler */}
       <div className="flex gap-2 mt-6 flex-wrap">
 
         <span className="bg-slate-100 px-3 py-1 rounded-full text-sm">
@@ -71,7 +95,6 @@ const JobCard = ({ job }) => {
 
       </div>
 
-      {/* Detay Butonu */}
       <Link
         to={`/jobs/${job._id}`}
         className="mt-6 block w-full text-center bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3 transition"

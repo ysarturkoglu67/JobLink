@@ -52,9 +52,14 @@ export const getMyApplications = async (req, res) => {
       applicant: req.user._id,
     })
       .populate({
-        path: "job",
-        select: "title company location salary employmentType",
-      })
+    path: "job",
+    select:
+      "title company location salary employmentType createdBy",
+    populate: {
+        path: "createdBy",
+        select: "name email avatar",
+    },
+})
       .sort("-createdAt");
 
     res.status(200).json({
