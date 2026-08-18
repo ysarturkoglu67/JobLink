@@ -3,47 +3,46 @@ import express from "express";
 import {
   register,
   login,
-  me,
   updateProfile,
+  me,
   uploadCV,
-  toggleSavedJob,
-  getSavedJobs,
   uploadResume,
   uploadAvatar,
+  toggleSavedJob,
+  getSavedJobs,
 } from "../controllers/auth.controller.js";
 
 import { protect } from "../middleware/auth.middleware.js";
 
 import upload from "../middleware/upload.middleware.js";
 import uploadAvatarMiddleware from "../middleware/uploadAvatar.middleware.js";
+import uploadCVMiddleware from "../middleware/uploadCV.js";
 
 const router = express.Router();
 
-// Auth
+/* ==========================
+   AUTH
+========================== */
+
 router.post("/register", register);
 router.post("/login", login);
 
-// Kullanıcı Bilgileri
+/* ==========================
+   USER
+========================== */
+
 router.get("/me", protect, me);
-router.put("/profile", protect, updateProfile);
 
-// CV Yükleme
-router.post(
-  "/upload-cv",
+router.put(
+  "/profile",
   protect,
-  upload.single("cv"),
-  uploadCV
+  updateProfile
 );
 
-// Resume Yükleme
-router.post(
-  "/upload-resume",
-  protect,
-  upload.single("resume"),
-  uploadResume
-);
+/* ==========================
+   AVATAR
+========================== */
 
-// Avatar Yükleme
 router.post(
   "/upload-avatar",
   protect,
@@ -51,7 +50,32 @@ router.post(
   uploadAvatar
 );
 
-// Favori İlanlar
+/* ==========================
+   CV
+========================== */
+
+router.post(
+  "/upload-cv",
+  protect,
+  uploadCVMiddleware.single("cv"),
+  uploadCV
+);
+
+/* ==========================
+   RESUME (PDF)
+========================== */
+
+router.post(
+  "/upload-resume",
+  protect,
+  upload.single("resume"),
+  uploadResume
+);
+
+/* ==========================
+   SAVED JOBS
+========================== */
+
 router.post(
   "/saved-jobs",
   protect,

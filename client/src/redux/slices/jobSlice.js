@@ -8,6 +8,7 @@ const initialState = {
   page: 1,
   totalPages: 1,
   totalJobs: 0,
+  limit: 6,
 };
 
 const jobSlice = createSlice({
@@ -17,29 +18,39 @@ const jobSlice = createSlice({
 
   reducers: {
     changePage(state, action) {
-    state.page = action.payload;
-  },
+      state.page = action.payload;
+    },
 
-    fetchStart(state){
-      state.loading=true;
-      state.error=null;
+    resetPage(state) {
+      state.page = 1;
+    },
+
+    fetchStart(state) {
+      state.loading = true;
+      state.error = null;
     },
 
     fetchSuccess(state, action) {
-    state.loading = false;
-    state.jobs = action.payload.jobs;
-    state.page = action.payload.page;
-    state.totalPages = action.payload.totalPages;
-    state.totalJobs = action.payload.totalJobs;
-   },
+      state.loading = false;
+      state.error = null;
 
-    fetchFail(state,action){
-      state.loading=false;
-      state.error=action.payload;
-    }
+      state.jobs = action.payload.jobs || [];
 
-  }
+      state.page = action.payload.page || 1;
 
+      state.totalPages =
+        action.payload.totalPages || 1;
+
+      state.totalJobs =
+        action.payload.totalJobs || 0;
+    },
+
+    fetchFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+      state.jobs = [];
+    },
+  },
 });
 
 export const {
@@ -47,6 +58,7 @@ export const {
   fetchSuccess,
   fetchFail,
   changePage,
-}=jobSlice.actions;
+  resetPage,
+} = jobSlice.actions;
 
 export default jobSlice.reducer;

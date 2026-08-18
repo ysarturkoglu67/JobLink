@@ -7,6 +7,7 @@ const savedJobSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
     job: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Job",
@@ -18,9 +19,13 @@ const savedJobSchema = new mongoose.Schema(
   }
 );
 
+// Aynı ilanı aynı kullanıcı iki kere favorileyemesin
 savedJobSchema.index(
   { user: 1, job: 1 },
   { unique: true }
 );
 
-export default mongoose.model("SavedJob", savedJobSchema);
+export default mongoose.model(
+  "SavedJob",
+  savedJobSchema
+);

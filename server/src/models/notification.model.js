@@ -15,7 +15,13 @@ const notificationSchema = new mongoose.Schema(
 
     type: {
       type: String,
-      enum: ["application", "message", "accepted", "rejected"],
+      enum: [
+        "message",
+        "application",
+        "accepted",
+        "rejected",
+        "interview",
+      ],
       required: true,
     },
 
@@ -24,12 +30,17 @@ const notificationSchema = new mongoose.Schema(
       required: true,
     },
 
-    isRead: {
+    read: {
       type: Boolean,
       default: false,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-export default mongoose.model("Notification", notificationSchema);
+export default mongoose.model(
+  "Notification",
+  notificationSchema
+);

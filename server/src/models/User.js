@@ -3,14 +3,7 @@ import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
-    avatar: {
-  type: String,
-  default: "",
-},
-    resume: {
-  type: String,
-  default: "",
-},
+    // Temel Bilgiler
     name: {
       type: String,
       required: true,
@@ -37,12 +30,18 @@ const userSchema = new mongoose.Schema(
       default: "candidate",
     },
 
+    // Profil
     phone: {
       type: String,
       default: "",
     },
 
     city: {
+      type: String,
+      default: "",
+    },
+
+    bio: {
       type: String,
       default: "",
     },
@@ -57,29 +56,88 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
 
-    bio: {
-      type: String,
-      default: "",
-    },
-
     avatar: {
       type: String,
       default: "",
     },
 
+    // CV
+    cv: {
+      type: String,
+      default: "",
+    },
+
+    cvOriginalName: {
+      type: String,
+      default: "",
+    },
+
+    resume: {
+      type: String,
+      default: "",
+    },
+
+    // Şirket Bilgileri
+    companyName: {
+      type: String,
+      default: "",
+    },
+
+    companyLogo: {
+      type: String,
+      default: "",
+    },
+
+    companyWebsite: {
+      type: String,
+      default: "",
+    },
+
+    companySize: {
+      type: String,
+      default: "",
+    },
+
+    companyDescription: {
+      type: String,
+      default: "",
+    },
+
+    companyAddress: {
+      type: String,
+      default: "",
+    },
+
+    // Favori İlanlar
     savedJobs: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Job",
       },
     ],
+
+    // Sistem
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
+    lastSeen: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-// Şifreyi kaydetmeden önce hashle
+// Şifreyi sadece bir kez hashle
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();

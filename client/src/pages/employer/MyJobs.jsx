@@ -58,6 +58,31 @@ const MyJobs = () => {
       </div>
     );
   }
+  const toggleJobStatus = async (id) => {
+    try {
+      const res = await api.patch(
+        `/jobs/${id}/status`
+      );
+
+      toast.success(res.data.message);
+
+      setJobs((prev) =>
+        prev.map((job) =>
+          job._id === id
+            ? {
+              ...job,
+              isActive: res.data.job.isActive,
+            }
+            : job
+        )
+      );
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message ||
+        "İlan durumu değiştirilemedi."
+      );
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -104,7 +129,20 @@ const MyJobs = () => {
               </div>
 
               <div className="flex gap-3 mt-6">
-
+                <button
+                  onClick={() =>
+                    toggleJobStatus(job._id)
+                  }
+                  className={
+                    job.isActive
+                      ? "bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg"
+                      : "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+                  }
+                >
+                  {job.isActive
+                    ? "Pasif Yap"
+                    : "Aktif Et"}
+                </button>
                 <button
                   onClick={() =>
                     navigate(`/employer/edit-job/${job._id}`)
@@ -123,8 +161,7 @@ const MyJobs = () => {
 
                 <button
                   onClick={() =>
-                    navigate(`/employer/applicants?job=${job._id}`)
-                  }
+                    navigate(`/employer/applicants?jobId=${job._id}`)}
                   className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
                 >
                   Başvuranlar

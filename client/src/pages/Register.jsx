@@ -34,7 +34,13 @@ const Register = () => {
 
       navigate("/login");
     } catch (err) {
-      alert(err.response?.data?.message || "Kayit başarisiz");
+      console.log("REGISTER ERROR:", err);
+      console.log("SERVER RESPONSE:", err.response?.data);
+
+      alert(
+        err.response?.data?.message ||
+        "Kayıt sırasında hata oluştu."
+      );
     } finally {
       setLoading(false);
     }

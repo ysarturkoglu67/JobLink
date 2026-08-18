@@ -1,73 +1,147 @@
 import SavedJob from "../models/SavedJob.js";
+import Job from "../models/Job.js";
+
+// ==========================================
+// İLANI FAVORİLERE EKLE
+// ==========================================
 
 export const saveJob = async (req, res) => {
   try {
     const { jobId } = req.body;
 
-    const saved = await SavedJob.findOne({
+    if (!jobId) {
+      return res.status(400).json({
+        success: false,
+        message: "İlan ID gerekli.",
+      });
+    }
+
+    const job = await Job.findById(jobId);
+
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: "İş ilanı bulunamadı.",
+      });
+    }
+
+    const exists = await SavedJob.findOne({
       user: req.user._id,
       job: jobId,
     });
 
-    if (saved) {
+    if (exists) {
       return res.status(400).json({
         success: false,
-        message: "Bu ilan zaten favorilerde.",
+        message: "Bu ilan zaten favorilerinizde.",
       });
     }
 
-    const newSaved = await SavedJob.create({
+    const savedJob = await SavedJob.create({
       user: req.user._id,
       job: jobId,
     });
 
     res.status(201).json({
       success: true,
-      saved: newSaved,
+      message: "İlan favorilere eklendi.",
+      savedJob,
     });
-
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: error.message,
     });
   }
 };
+
+// ==========================================
+// FAVORİLERİ GETİR
+// ==========================================
 
 export const getSavedJobs = async (req, res) => {
   try {
-
-    const jobs = await SavedJob.find({
+    const savedJobs = await SavedJob.find({
       user: req.user._id,
-    }).populate("job");
+    })
+      .populate({
+        path: "job",
+        populate: {
+          path: "createdBy",
+          select:
+            "name email companyLogo companyName avatar",
+        },
+      })
+      .sort("-createdAt");
 
-    res.json({
+    res.status(200).json({
       success: true,
-      jobs,
+      count: savedJobs.length,
+      savedJobs,
     });
-
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: error.message,
     });
   }
 };
 
+// ==========================================
+// FAVORİDEN ÇIKAR
+// ==========================================
+
 export const removeSavedJob = async (req, res) => {
   try {
+    const { jobId } = req.params;
 
-    await SavedJob.findByIdAndDelete(req.params.id);
-
-    res.json({
-      success: true,
-      message: "Favoriden kaldırıldı.",
+    const savedJob = await SavedJob.findOne({
+      user: req.user._id,
+      job: jobId,
     });
 
-  } catch (err) {
+    if (!savedJob) {
+      return res.status(404).json({
+        success: false,
+        message: "Bu ilan favorilerinizde değil.",
+      });
+    }
+
+    await SavedJob.findByIdAndDelete(
+      savedJob._id
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "İlan favorilerden çıkarıldı.",
+    });
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: error.message,
+    });
+  }
+};
+
+// ==========================================
+// FAVORİ Mİ KONTROLÜ
+// ==========================================
+
+export const checkSavedJob = async (req, res) => {
+  try {
+    const savedJob = await SavedJob.findOne({
+      user: req.user._id,
+      job: req.params.jobId,
+    });
+
+    res.status(200).json({
+      success: true,
+      saved: !!savedJob,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

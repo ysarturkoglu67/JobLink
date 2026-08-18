@@ -11,6 +11,7 @@ import {
 
 const router = express.Router();
 
+// Aday başvuru yapar
 router.post(
   "/",
   protect,
@@ -18,12 +19,15 @@ router.post(
   applyJob
 );
 
+// Aday kendi başvurularını görür
 router.get(
   "/my-applications",
   protect,
+  authorize("candidate", "admin"),
   getMyApplications
 );
 
+// İşveren/Admin ilanın başvurularını görür
 router.get(
   "/job/:jobId",
   protect,
@@ -31,6 +35,7 @@ router.get(
   getApplicationsForJob
 );
 
+// İşveren/Admin başvuru durumunu günceller
 router.patch(
   "/:id/status",
   protect,

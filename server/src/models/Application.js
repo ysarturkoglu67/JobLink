@@ -16,8 +16,7 @@ const applicationSchema = new mongoose.Schema(
 
     coverLetter: {
       type: String,
-      required: true,
-      trim: true,
+      default: "",
     },
 
     status: {

@@ -5,15 +5,22 @@ export const protect = async (req, res, next) => {
   try {
     let token;
 
+    // ==========================================
     // Authorization Header
+    // ==========================================
+
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer ")
     ) {
-      token = req.headers.authorization.split(" ")[1];
+      token =
+        req.headers.authorization.split(" ")[1];
     }
 
-    // Token yoksa
+    // ==========================================
+    // Token yok
+    // ==========================================
+
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -21,16 +28,22 @@ export const protect = async (req, res, next) => {
       });
     }
 
-    console.log("Token:", token);
-    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+    // ==========================================
+    // Token doğrula
+    // ==========================================
 
-    // Token doğrulama
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
 
-    console.log("Decoded:", decoded);
-
+    // ==========================================
     // Kullanıcıyı bul
-    const user = await User.findById(decoded.id).select("-password");
+    // ==========================================
+
+    const user = await User.findById(
+      decoded.id
+    ).select("-password");
 
     if (!user) {
       return res.status(404).json({
@@ -39,15 +52,34 @@ export const protect = async (req, res, next) => {
       });
     }
 
+    // ==========================================
+    // Hesap aktif mi?
+    // ==========================================
+
+    if (!user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Hesabınız pasif durumda. Yönetici ile iletişime geçin.",
+      });
+    }
+
+    // ==========================================
+    // Kullanıcıyı request'e ekle
+    // ==========================================
+
     req.user = user;
 
     next();
   } catch (error) {
-    console.error("JWT Hatası:", error);
+    console.error(
+      "AUTH MIDDLEWARE ERROR:",
+      error.message
+    );
 
     return res.status(401).json({
       success: false,
-      message: error.message,
+      message: "Geçersiz veya süresi dolmuş token.",
     });
   }
 };
