@@ -27,7 +27,7 @@ const Hero = () => {
 
           <p className="text-blue-100 text-xl mt-8 leading-9">
             Binlerce şirket, on binlerce ilan.
-            Kariyer yolculuğuna JobLink ile başla.
+            Kariyer yolculuğuna Kariyerİnşa.com ile başla.
           </p>
 
           <div className="bg-white rounded-2xl p-3 mt-10 flex flex-col lg:flex-row gap-3 shadow-2xl">

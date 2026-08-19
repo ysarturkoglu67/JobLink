@@ -11,7 +11,7 @@ const Footer = () => {
           <div>
 
             <h2 className="text-2xl font-bold">
-              JobLink
+              Kariyerİnşa.com
             </h2>
 
             <p className="text-gray-400 mt-4">
@@ -48,7 +48,7 @@ const Footer = () => {
               İletişim
             </h3>
 
-            <p>info@joblink.com</p>
+            <p>info@Kariyerİnşa.com</p>
 
             <p className="mt-2">
               İstanbul / Türkiye
@@ -59,7 +59,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-slate-700 mt-10 pt-6 text-center text-gray-400">
-          © 2026 JobLink. Tüm hakları saklıdır.
+          © 2026 Kariyerİnşa.com Tüm hakları saklıdır.
         </div>
 
       </div>

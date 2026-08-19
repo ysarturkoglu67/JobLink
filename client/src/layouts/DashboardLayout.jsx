@@ -41,7 +41,7 @@ const DashboardLayout = () => {
           <div className="p-6 border-b border-slate-700">
 
             <h1 className="text-2xl font-bold">
-              JobLink
+              Kariyerİnşa.com
             </h1>
 
           </div>

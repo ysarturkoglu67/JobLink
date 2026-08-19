@@ -91,7 +91,7 @@ const Dashboard = () => {
         </h1>
 
         <p className="text-gray-500 mt-2">
-          JobLink sistemini buradan yönetebilirsin.
+          Kariyerİnşa.com sistemini buradan yönetebilirsin.
         </p>
       </div>
 

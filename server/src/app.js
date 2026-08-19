@@ -43,7 +43,7 @@ app.use(
 // ==========================================
 
 app.get("/", (req, res) => {
-  res.send("🚀 JobLink Backend API");
+  res.send("🚀 Kariyerİnşa.com Backend API");
 });
 
 // ==========================================
@@ -53,7 +53,7 @@ app.get("/", (req, res) => {
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "JobLink API çalışıyor 🚀",
+    message: "Kariyerİnşa.com API çalışıyor 🚀",
   });
 });
 

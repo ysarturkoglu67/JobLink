@@ -128,7 +128,7 @@ const Navbar = () => {
             to="/"
             className="text-3xl font-bold text-blue-600"
           >
-            JobLink
+            Kariyerİnşa.com
           </Link>
 
           {/* ====================================== */}
@@ -414,7 +414,7 @@ const Navbar = () => {
             onClick={closeMobileMenu}
             className="text-2xl font-bold text-blue-600"
           >
-            JobLink
+            Kariyerİnşa.com
           </Link>
 
           <button

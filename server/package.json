@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "JobLink Backend",
+  "description": "Kariyerİnşa.com Backend",
   "type": "module",
   "main": "src/server.js",
   "scripts": {
