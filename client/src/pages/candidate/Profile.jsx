@@ -268,7 +268,7 @@ const Profile = () => {
   const avatarUrl = user?.avatar
     ? user.avatar.startsWith("http")
       ? user.avatar
-      : `http://localhost:5000${user.avatar}`
+      : `https://kariyerinsa-api.onrender.com${user.avatar}`
     : null;
 
   // =====================================================
@@ -278,7 +278,7 @@ const Profile = () => {
   const cvUrl = user?.cv
     ? user.cv.startsWith("http")
       ? user.cv
-      : `http://localhost:5000${user.cv}`
+      : `https://kariyerinsa-api.onrender.com${user.cv}`
     : null;
 
   // =====================================================

@@ -50,7 +50,7 @@ const Messages = () => {
       return avatar;
     }
 
-    return `http://localhost:5000${avatar}`;
+    return `https://kariyerinsa-api.onrender.com${avatar}`;
   };
 
   if (loading) {

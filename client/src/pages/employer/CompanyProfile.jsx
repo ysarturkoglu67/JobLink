@@ -102,7 +102,7 @@ const CompanyProfile = () => {
   const logoUrl = form.companyLogo
     ? form.companyLogo.startsWith("http")
       ? form.companyLogo
-      : `http://localhost:5000${form.companyLogo}`
+      : `https://kariyerinsa-api.onrender.com${form.companyLogo}`
     : `https://ui-avatars.com/api/?name=${encodeURIComponent(
         form.companyName || "Company"
       )}`;

@@ -376,7 +376,7 @@ const Applicants = () => {
                                   "http"
                                 )
                                   ? applicant.avatar
-                                  : `http://localhost:5000${applicant.avatar}`
+                                  : `https://kariyerinsa-api.onrender.com${applicant.avatar}`
                               }
                               alt={applicant.name}
                               className="w-full h-full object-cover"
@@ -461,7 +461,7 @@ const Applicants = () => {
 
                       {applicant?.cv && (
                         <a
-                          href={`http://localhost:5000${applicant.cv}`}
+                          href={`https://kariyerinsa-api.onrender.com${applicant.cv}`}
                           target="_blank"
                           rel="noreferrer"
                           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2"

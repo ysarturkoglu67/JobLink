@@ -158,7 +158,7 @@ const Applications = () => {
                               "http"
                             )
                               ? app.applicant.avatar
-                              : `http://localhost:5000${app.applicant.avatar}`
+                              : `https://kariyerinsa-api.onrender.com${app.applicant.avatar}`
                           }
                           alt={
                             app.applicant.name

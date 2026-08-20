@@ -205,7 +205,7 @@ const Users = () => {
                       <img
                         src={
                           user.avatar
-                            ? `http://localhost:5000${user.avatar}`
+                            ? `https://kariyerinsa-api.onrender.com${user.avatar}`
                             : `https://ui-avatars.com/api/?name=${encodeURIComponent(
                               user.name
                             )}`

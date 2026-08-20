@@ -303,7 +303,7 @@ const Navbar = () => {
                             "http"
                           )
                             ? user.avatar
-                            : `http://localhost:5000${user.avatar}`
+                            : `https://kariyerinsa-api.onrender.com${user.avatar}`
                         }
                         alt={user.name}
                         className="w-full h-full object-cover"
@@ -588,7 +588,7 @@ const Navbar = () => {
                               "http"
                             )
                               ? user.avatar
-                              : `http://localhost:5000${user.avatar}`
+                              : `https://kariyerinsa-api.onrender.com${user.avatar}`
                           }
                           alt={user.name}
                           className="w-full h-full object-cover"
