@@ -2,16 +2,16 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import Navbar from "../components/layout/Navbar";
-import Hero from "../components/home/Hero";
-import SearchBar from "../components/home/SearchBar";
-import FilterSidebar from "../components/home/FilterSidebar";
+import Hero from "../components/Home/Hero";
+import SearchBar from "../components/Home/SearchBar";
+import FilterSidebar from "../components/Home/FilterSidebar";
 import JobList from "../components/jobs/JobList";
 import Pagination from "../components/common/Pagination";
-import Stats from "../components/home/Stats";
-import TopCompanies from "../components/home/TopCompanies";
+import Stats from "../components/Home/Stats";
+import TopCompanies from "../components/Home/TopCompanies";
 import Footer from "../components/layout/Footer";
-import PopularCategories from "../components/home/PopularCategories";
-import FeaturedJobs from "../components/home/FeaturedJobs";
+import PopularCategories from "../components/Home/PopularCategories";
+import FeaturedJobs from "../components/Home/FeaturedJobs";
 
 import { changePage } from "../redux/slices/jobSlice";
 
